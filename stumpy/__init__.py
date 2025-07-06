@@ -24,7 +24,21 @@ from .aamp_motifs import aamp_motifs, aamp_match  # noqa: F401
 from .snippets import snippets  # noqa: F401
 from .aampdist_snippets import aampdist_snippets  # noqa: F401
 from .stimp import stimp, stimped  # noqa: F401
+
+
+# Get the default fastmath flags for all njit functions
+# and update the _STUMPY_DEFAULTS dictionary
+import os
+CHAQUOPY_FIX = True
+
+if CHAQUOPY_FIX:
+    os.environ["NUMBA_DISABLE_JIT"] = 1
+    os.environ["NUMBA_ENABLE_CUDASIM"] = 1
+
+import numba
 from numba import cuda
+
+numba.config.DISABLE_JIT = True  # pragma: no cover
 
 if cuda.is_available():
     from .gpu_stump import gpu_stump  # noqa: F401
@@ -44,113 +58,117 @@ else:  # pragma: no cover
     from .core import _gpu_mpdist_driver_not_found as gpu_mpdist  # noqa: F401
     from .core import _gpu_aampdist_driver_not_found as gpu_aampdist  # noqa: F401
     from .core import _gpu_stimp_driver_not_found as gpu_stimp  # noqa: F401
+    
     import ast
     import pathlib
 
-    # Fix GPU-STUMP Docs
-    gpu_stump.__doc__ = ""
-    filepath = pathlib.Path(__file__).parent / "gpu_stump.py"
 
-    file_contents = ""
-    with open(filepath, encoding="utf8") as f:
-        file_contents = f.read()
-    module = ast.parse(file_contents)
-    function_definitions = [
-        node for node in module.body if isinstance(node, ast.FunctionDef)
-    ]
-    for fd in function_definitions:
-        if fd.name == "gpu_stump":
-            gpu_stump.__doc__ = ast.get_docstring(fd)
+    print(f"STUMPY, CHAQUOPY_FIX: {CHAQUOPY_FIX}")
+    if not CHAQUOPY_FIX:
+        # Fix GPU-STUMP Docs
+        gpu_stump.__doc__ = ""
+        filepath = pathlib.Path(__file__).parent / "gpu_stump.py"
 
-    # Fix GPU-AAMP Docs
-    gpu_aamp.__doc__ = ""
-    filepath = pathlib.Path(__file__).parent / "gpu_aamp.py"
+        file_contents = ""
+        with open(filepath, encoding="utf8") as f:
+            file_contents = f.read()
+        module = ast.parse(file_contents)
+        function_definitions = [
+            node for node in module.body if isinstance(node, ast.FunctionDef)
+        ]
+        for fd in function_definitions:
+            if fd.name == "gpu_stump":
+                gpu_stump.__doc__ = ast.get_docstring(fd)
 
-    file_contents = ""
-    with open(filepath, encoding="utf8") as f:
-        file_contents = f.read()
-    module = ast.parse(file_contents)
-    function_definitions = [
-        node for node in module.body if isinstance(node, ast.FunctionDef)
-    ]
-    for fd in function_definitions:
-        if fd.name == "gpu_aamp":
-            gpu_aamp.__doc__ = ast.get_docstring(fd)
+        # Fix GPU-AAMP Docs
+        gpu_aamp.__doc__ = ""
+        filepath = pathlib.Path(__file__).parent / "gpu_aamp.py"
 
-    # Fix GPU-OSTINATO Docs
-    gpu_ostinato.__doc__ = ""
-    filepath = pathlib.Path(__file__).parent / "gpu_ostinato.py"
+        file_contents = ""
+        with open(filepath, encoding="utf8") as f:
+            file_contents = f.read()
+        module = ast.parse(file_contents)
+        function_definitions = [
+            node for node in module.body if isinstance(node, ast.FunctionDef)
+        ]
+        for fd in function_definitions:
+            if fd.name == "gpu_aamp":
+                gpu_aamp.__doc__ = ast.get_docstring(fd)
 
-    file_contents = ""
-    with open(filepath, encoding="utf8") as f:
-        file_contents = f.read()
-    module = ast.parse(file_contents)
-    function_definitions = [
-        node for node in module.body if isinstance(node, ast.FunctionDef)
-    ]
-    for fd in function_definitions:
-        if fd.name == "gpu_ostinato":
-            gpu_ostinato.__doc__ = ast.get_docstring(fd)
+        # Fix GPU-OSTINATO Docs
+        gpu_ostinato.__doc__ = ""
+        filepath = pathlib.Path(__file__).parent / "gpu_ostinato.py"
 
-    # Fix GPU-AAMP-OSTINATO Docs
-    gpu_aamp_ostinato.__doc__ = ""
-    filepath = pathlib.Path(__file__).parent / "gpu_aamp_ostinato.py"
+        file_contents = ""
+        with open(filepath, encoding="utf8") as f:
+            file_contents = f.read()
+        module = ast.parse(file_contents)
+        function_definitions = [
+            node for node in module.body if isinstance(node, ast.FunctionDef)
+        ]
+        for fd in function_definitions:
+            if fd.name == "gpu_ostinato":
+                gpu_ostinato.__doc__ = ast.get_docstring(fd)
 
-    file_contents = ""
-    with open(filepath, encoding="utf8") as f:
-        file_contents = f.read()
-    module = ast.parse(file_contents)
-    function_definitions = [
-        node for node in module.body if isinstance(node, ast.FunctionDef)
-    ]
-    for fd in function_definitions:
-        if fd.name == "gpu_aamp_ostinato":
-            gpu_aamp_ostinato.__doc__ = ast.get_docstring(fd)
+        # Fix GPU-AAMP-OSTINATO Docs
+        gpu_aamp_ostinato.__doc__ = ""
+        filepath = pathlib.Path(__file__).parent / "gpu_aamp_ostinato.py"
 
-    # Fix GPU-MPDIST Docs
-    gpu_mpdist.__doc__ = ""
-    filepath = pathlib.Path(__file__).parent / "gpu_mpdist.py"
+        file_contents = ""
+        with open(filepath, encoding="utf8") as f:
+            file_contents = f.read()
+        module = ast.parse(file_contents)
+        function_definitions = [
+            node for node in module.body if isinstance(node, ast.FunctionDef)
+        ]
+        for fd in function_definitions:
+            if fd.name == "gpu_aamp_ostinato":
+                gpu_aamp_ostinato.__doc__ = ast.get_docstring(fd)
 
-    file_contents = ""
-    with open(filepath, encoding="utf8") as f:
-        file_contents = f.read()
-    module = ast.parse(file_contents)
-    function_definitions = [
-        node for node in module.body if isinstance(node, ast.FunctionDef)
-    ]
-    for fd in function_definitions:
-        if fd.name == "gpu_mpdist":
-            gpu_mpdist.__doc__ = ast.get_docstring(fd)
+        # Fix GPU-MPDIST Docs
+        gpu_mpdist.__doc__ = ""
+        filepath = pathlib.Path(__file__).parent / "gpu_mpdist.py"
 
-    # Fix GPU-AAMPDIST Docs
-    gpu_aampdist.__doc__ = ""
-    filepath = pathlib.Path(__file__).parent / "gpu_aampdist.py"
+        file_contents = ""
+        with open(filepath, encoding="utf8") as f:
+            file_contents = f.read()
+        module = ast.parse(file_contents)
+        function_definitions = [
+            node for node in module.body if isinstance(node, ast.FunctionDef)
+        ]
+        for fd in function_definitions:
+            if fd.name == "gpu_mpdist":
+                gpu_mpdist.__doc__ = ast.get_docstring(fd)
 
-    file_contents = ""
-    with open(filepath, encoding="utf8") as f:
-        file_contents = f.read()
-    module = ast.parse(file_contents)
-    function_definitions = [
-        node for node in module.body if isinstance(node, ast.FunctionDef)
-    ]
-    for fd in function_definitions:
-        if fd.name == "gpu_aampdist":
-            gpu_aampdist.__doc__ = ast.get_docstring(fd)
+        # Fix GPU-AAMPDIST Docs
+        gpu_aampdist.__doc__ = ""
+        filepath = pathlib.Path(__file__).parent / "gpu_aampdist.py"
 
-    # Fix GPU-STIMP Docs
-    # Note that this is a special case for class definitions.
-    # See above for function definitions.
-    gpu_stimp.__doc__ = ""
-    filepath = pathlib.Path(__file__).parent / "gpu_stimp.py"
+        file_contents = ""
+        with open(filepath, encoding="utf8") as f:
+            file_contents = f.read()
+        module = ast.parse(file_contents)
+        function_definitions = [
+            node for node in module.body if isinstance(node, ast.FunctionDef)
+        ]
+        for fd in function_definitions:
+            if fd.name == "gpu_aampdist":
+                gpu_aampdist.__doc__ = ast.get_docstring(fd)
 
-    file_contents = ""
-    with open(filepath, encoding="utf8") as f:
-        file_contents = f.read()
-    module = ast.parse(file_contents)
-    class_definitions = [node for node in module.body if isinstance(node, ast.ClassDef)]
-    for cd in class_definitions:
-        if cd.name == "gpu_stimp":
-            gpu_stimp.__doc__ = ast.get_docstring(cd)
+        # Fix GPU-STIMP Docs
+        # Note that this is a special case for class definitions.
+        # See above for function definitions.
+        gpu_stimp.__doc__ = ""
+        filepath = pathlib.Path(__file__).parent / "gpu_stimp.py"
+
+        file_contents = ""
+        with open(filepath, encoding="utf8") as f:
+            file_contents = f.read()
+        module = ast.parse(file_contents)
+        class_definitions = [node for node in module.body if isinstance(node, ast.ClassDef)]
+        for cd in class_definitions:
+            if cd.name == "gpu_stimp":
+                gpu_stimp.__doc__ = ast.get_docstring(cd)
 
 try:
     _dist = get_distribution("stumpy")
