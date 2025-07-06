@@ -271,11 +271,11 @@ def _get_first_maamp_profile(
 
 
 # @njit(
-    "(i8, i8, i8, f8[:, :], f8[:, :], i8, i8, b1[:, :], b1[:, :], f8[:, :], f8[:, :],"
-    "f8[:, :], f8[:, :], f8[:, :])",
-    parallel=True,
-    fastmath=True,
-)
+#     "(i8, i8, i8, f8[:, :], f8[:, :], i8, i8, b1[:, :], b1[:, :], f8[:, :], f8[:, :],"
+#     "f8[:, :], f8[:, :], f8[:, :])",
+#     parallel=True,
+#     fastmath=True,
+# )
 def _compute_multi_D(
     d,
     k,

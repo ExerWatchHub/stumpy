@@ -550,11 +550,11 @@ def _get_multi_QT(start, T, m):
 
 
 # @njit(
-    "(i8, i8, i8, f8[:, :], f8[:, :], i8, i8, f8[:, :], f8[:, :], f8[:, :], f8[:, :],"
-    "f8[:, :], f8[:, :], f8[:, :])",
-    parallel=True,
-    fastmath=True,
-)
+#     "(i8, i8, i8, f8[:, :], f8[:, :], i8, i8, f8[:, :], f8[:, :], f8[:, :], f8[:, :],"
+#     "f8[:, :], f8[:, :], f8[:, :])",
+#     parallel=True,
+#     fastmath=True,
+# )
 def _compute_multi_D(
     d, k, idx, D, T, m, excl_zone, M_T, Σ_T, QT_even, QT_odd, QT_first, μ_Q, σ_Q
 ):
