@@ -12,7 +12,7 @@ coverage.json
 coverage.stumpy.json
 dask-worker-space
 stumpy.egg-info
-build
+# build
 dist
 .vscode
 docs/_build
