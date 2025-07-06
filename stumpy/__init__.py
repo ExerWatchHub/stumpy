@@ -32,8 +32,8 @@ import os
 CHAQUOPY_FIX = True
 
 if CHAQUOPY_FIX:
-    os.environ["NUMBA_DISABLE_JIT"] = 1
-    os.environ["NUMBA_ENABLE_CUDASIM"] = 1
+    os.environ["NUMBA_DISABLE_JIT"] = "1"
+    os.environ["NUMBA_ENABLE_CUDASIM"] = "1"
 
 import numba
 from numba import cuda
