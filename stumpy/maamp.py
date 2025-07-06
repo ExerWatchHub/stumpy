@@ -270,7 +270,7 @@ def _get_first_maamp_profile(
     return P, I
 
 
-@njit(
+# @njit(
     "(i8, i8, i8, f8[:, :], f8[:, :], i8, i8, b1[:, :], b1[:, :], f8[:, :], f8[:, :],"
     "f8[:, :], f8[:, :], f8[:, :])",
     parallel=True,

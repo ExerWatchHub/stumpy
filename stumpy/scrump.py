@@ -14,7 +14,7 @@ from .stump import _stump
 logger = logging.getLogger(__name__)
 
 
-@njit(
+# @njit(
     "(f8[:], f8[:], i8, f8[:], f8[:], f8[:], f8[:], f8[:], i8, i8, f8[:], f8[:], i8[:],"
     "optional(i8))",
     parallel=True,
